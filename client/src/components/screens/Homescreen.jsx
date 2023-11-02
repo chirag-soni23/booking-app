@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 import Rooms from '../Rooms';
 import Loader from '../Loader';
+import Error from '../Error';
 
 function Homescreen() {
     const [loading, setLoading] = useState(false); // Initialize loading state with false
@@ -30,14 +31,16 @@ function Homescreen() {
 
     return (
         <div className='containser'>
-        <div className='row justify-content-center mt-5'>
-            {loading ? (<h1><Loader/></h1>) : error ? (<h1>Error</h1>) : (
-                rooms.map(room => (
-                   <div className="col-md-9 mt-4">
+        <div className='row justify-content-center mt-2 '>
+            {loading ? (<h1><Loader/></h1>) : rooms.length>1 ?  (
+                rooms.map((room) => {
+                 return  <div className="col-md-9 mt-4">
                     <Rooms rooms ={room}/>
                    </div>
-                ))
-            )}
+})
+                ):(
+                <Error/>
+)}
         </div>
         </div>
     );

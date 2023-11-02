@@ -2,9 +2,11 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Loader from '../Loader';
+import Error from '../Error';
+
 
 function BookingScreen() {
-    const { roomid } = useParams(); // useParams hook ka istemal karke 'roomid' ko match karenge
+    const { roomid } = useParams(); 
     const [loading, setLoading] = useState(false); // Initialize loading state with false
     const [error, setError] = useState(false); // Initialize error state with false
     const [room, setRoom] = useState(null); // Initialize room state with null
@@ -30,20 +32,47 @@ function BookingScreen() {
     }, [roomid]); // Adding roomid as a dependency to the useEffect
 
     return (
-        <div>
-            <h1>Booking Screen</h1>
-            <h1>Room id = {roomid}</h1>
-            {loading ? <p><Loader/></p> : null}
-            {error ? <p>Error occurred while fetching data.</p> : null}
-            {room && (
+        <div className='m-5'>
+            {loading ? (
+                <Loader />
+            ) : room ? (
                 <div>
-                    <p>Room Name: {room.name}</p>
-                    <p>Room Type: {room.type}</p>
-                    {/* Add more room information here */}
+                    <div className='row justify-content-center mt-5 bs'>
+                        <div className='col-md-6'>
+                            <h1>{room.name}</h1>
+                            <img src={room.imageurls[0]} className='bigimg' alt="Room" />
+                        </div>
+                        <div className='col-md-6'>
+                            <div style={{ textAlign: "right" }}>
+                                <h1>Booking details</h1>
+                                <hr />
+                                <b>
+                                    <p>Name: {room.name}</p>
+                                    <p>From Date: {/* Add from date here */}</p>
+                                    <p>To Date: {/* Add to date here */}</p>
+                                    <p>Max Count: {room.maxcount}</p>
+                                </b>
+                            </div>
+
+                            <div style={{ textAlign: "right" }}>
+                                <b>
+                                    <h1>Amount</h1>
+                                    <hr />
+                                    <p>Total days: {/* Calculate total days here */}</p>
+                                    <p>Rent per day: {room.rentperday}</p>
+                                    <p>Total Amount: {/* Calculate total amount here */}</p>
+                                </b>
+                            </div>
+                            <div style={{float:"right"}}>
+                                <button className='btn'>Pay Now</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            )}
+            ) : (<Error/>)}
         </div>
     );
 }
 
 export default BookingScreen;
+
