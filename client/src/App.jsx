@@ -30,6 +30,8 @@ import Navbar from './components/Navbar';
 import Homescreen from './components/screens/Homescreen';
 import { BrowserRouter, Route, Link, Routes } from 'react-router-dom';
 import Bookingscreen from './components/screens/Bookingscreen';
+import RegisterScreen from './components/screens/RegisterScreen';
+import Loginscreen from './components/screens/Loginscreen';
 
 function App() {
   return (
@@ -40,6 +42,9 @@ function App() {
           <Routes>
             <Route path="/" element={<Homescreen />} />
             <Route path="/book/:roomid"element={<Bookingscreen/>}/>
+            <Route path="/register"element={<RegisterScreen/>}/>
+            <Route path="/login"element={<Loginscreen/>}/>
+
           </Routes>
         </BrowserRouter>
       </div>
