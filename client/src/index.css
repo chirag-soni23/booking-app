@@ -56,3 +56,6 @@ h2{
   font-weight: bold !important;
   text-align: center;
 }
+.dropdown-toggle{
+  border:0px solid black !important;
+}
