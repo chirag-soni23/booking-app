@@ -5,11 +5,13 @@ import Loader from "../Loader";
 import Error from "../Error";
 import moment from "moment";
 
+
 function BookingScreen() {
-  const { roomid, fromdate, todate } = useParams(); // Retrieve fromdate and todate from URL parameters
+  const { roomid, fromdate, todate } = useParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [room, setRoom] = useState(null);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -30,13 +32,34 @@ function BookingScreen() {
     };
 
     fetchData();
-  }, [roomid, fromdate, todate]); // Include fromdate and todate as dependencies
+  }, [roomid]);
 
   const fromDateObj = moment(fromdate, "DD-MM-YYYY");
   const toDateObj = moment(todate, "DD-MM-YYYY");
   const totalDays = toDateObj.diff(fromDateObj, "days");
   const rentPerDay = room ? room.rentperday : 0;
   const totalAmount = totalDays * rentPerDay;
+
+  async function bookRoom() {
+      const bookingDetails = {
+      room,
+      userid: JSON.parse(localStorage.getItem("currentUser"))._id,
+      fromdate,
+      todate,
+      totalamount: totalAmount,
+      totaldays: totalDays,
+    };
+    try {
+      const result = await axios.post(
+        'http://localhost:5000/api/bookings/bookroom',
+        bookingDetails
+      );
+      // Handle the response if needed
+    } catch (error) {
+      console.error(error);
+      // Handle the error if needed
+    }
+  }
 
   return (
     <div className="m-5">
@@ -71,7 +94,9 @@ function BookingScreen() {
                 </b>
               </div>
               <div style={{ float: "right" }}>
-                <button className="btn">Pay Now</button>
+                <button className="btn" onClick={bookRoom}>
+                  Pay Now
+                </button>
               </div>
             </div>
           </div>

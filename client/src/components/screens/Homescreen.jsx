@@ -14,6 +14,7 @@ function Homescreen() {
     const [rooms, setRooms] = useState([]);
     const [fromdate, setFromdate] = useState(); // Initialize with null
     const [todate, setTodate] = useState(); // Initialize with null
+    const [duplicaterooms ,setDuplicatrooms] = useState([])
     const currentDate = moment().format("DD-MM-YYYY"); // Get current date and format it
 
     useEffect(() => {
@@ -22,6 +23,7 @@ function Homescreen() {
                 setLoading(true);
                 const data = (await axios.get('http://localhost:5000/api/rooms/getallrooms')).data;
                 setRooms(data);
+                setDuplicatrooms(data)
                 setLoading(false);
             } catch (err) {
                 setError(true);
