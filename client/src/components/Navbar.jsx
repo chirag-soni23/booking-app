@@ -1,6 +1,8 @@
 import React from 'react';
 
 function Navbar() {
+  const user = JSON.parse(localStorage.getItem("currentUser"));
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg">
@@ -9,13 +11,21 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ml-auto"> {/* Use ml-auto to align the links to the right */}
-            <li className="nav-item">
-              <a className="nav-link" href="/register">Register</a>
-            </li>
-            <li className="nav-item">
-              <a className="nav-link" href="/login">Login</a>
-            </li>
+          <ul className="navbar-nav ml-auto">
+            {user ? (
+              <>
+                <h1 style={{ color: "white" }}>{user.name}</h1>
+              </>
+            ) : (
+              <>
+                <li className="nav-item">
+                  <a className="nav-link" href="/register">Register</a>
+                </li>
+                <li className="nav-item">
+                  <a className="nav-link" href="/login">Login</a>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </nav>
