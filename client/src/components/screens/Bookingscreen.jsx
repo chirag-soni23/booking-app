@@ -5,8 +5,7 @@ import Loader from "../Loader";
 import Error from "../Error";
 import moment from "moment";
 
-
-function BookingScreen() {
+function BookingScreen(props) {
   const { roomid, fromdate, todate } = useParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -21,12 +20,11 @@ function BookingScreen() {
           { roomid: roomid }
         );
         const data = response.data;
-
         setRoom(data);
-        setLoading(false);
       } catch (err) {
         setError(true);
-        console.log(err);
+        console.error(err);
+      } finally {
         setLoading(false);
       }
     };
@@ -41,23 +39,34 @@ function BookingScreen() {
   const totalAmount = totalDays * rentPerDay;
 
   async function bookRoom() {
-      const bookingDetails = {
-      room,
-      userid: JSON.parse(localStorage.getItem("currentUser"))._id,
-      fromdate,
-      todate,
-      totalamount: totalAmount,
-      totaldays: totalDays,
-    };
     try {
+      const bookingDetails = {
+        room,
+        userid: JSON.parse(localStorage.getItem("currentUser"))._id,
+        fromdate,
+        todate,
+        totalamount: totalAmount,
+        totaldays: totalDays,
+      };
+
       const result = await axios.post(
         'http://localhost:5000/api/bookings/bookroom',
         bookingDetails
       );
-      // Handle the response if needed
+      
+      // Check the response for success and handle it if needed
+      if (result.data.success) {
+        // Payment was successful, you can navigate to a success page or show a message
+        alert("Payment was successful. Redirecting to success page...");
+        // Redirect to a success page or do something else here
+      } else {
+        // Payment was not successful, handle the error
+        alert("Payment failed. Please try again.");
+      }
     } catch (error) {
       console.error(error);
       // Handle the error if needed
+      alert("An error occurred while processing your payment.");
     }
   }
 
@@ -77,7 +86,7 @@ function BookingScreen() {
                 <h1>Booking details</h1>
                 <hr />
                 <b>
-                  <p>Name: {room.name}</p>
+                  <p>Name: {JSON.parse(localStorage.getItem("currentUser")).name}</p>
                   <p>From Date: {fromDateObj.format("DD-MM-YYYY")}</p>
                   <p>To Date: {toDateObj.format("DD-MM-YYYY")}</p>
                   <p>Max Count: {room.maxcount}</p>

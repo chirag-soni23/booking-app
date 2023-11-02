@@ -5,6 +5,7 @@ import Rooms from '../Rooms';
 import Loader from '../Loader';
 import Error from '../Error';
 import { DatePicker } from 'antd';
+import "antd/dist/antd"
 
 const { RangePicker } = DatePicker;
 
@@ -36,8 +37,12 @@ function Homescreen() {
     }, []);
 
     function filterByDate(dates) {
-        setFromdate(moment(dates[0]).format("DD-MM-YYYY"));
-        setTodate(moment(dates[1]).format("DD-MM-YYYY"));
+        // console.log(dates);
+        setFromdate(moment(dates[0]).format("DD-MM-YYYY"))
+        setTodate(moment(dates[1]).format("DD-MM-YYYY"))
+        console.log(moment(dates[0]).format("DD-MM-YYYY"));
+        console.log(moment(dates[1]).format("DD-MM-YYYY"));
+        
     }
 
     return (
@@ -66,3 +71,4 @@ function Homescreen() {
 }
 
 export default Homescreen;
+
