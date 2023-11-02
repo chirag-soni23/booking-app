@@ -5,7 +5,7 @@ import Loader from "../Loader";
 import Error from "../Error";
 import moment from "moment";
 
-function BookingScreen(props) {
+function BookingScreen(match) {
   const { roomid, fromdate, todate } = useParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -89,6 +89,8 @@ function BookingScreen(props) {
                   <p>Name: {JSON.parse(localStorage.getItem("currentUser")).name}</p>
                   <p>From Date: {fromDateObj.format("DD-MM-YYYY")}</p>
                   <p>To Date: {toDateObj.format("DD-MM-YYYY")}</p>
+                 
+                  
                   <p>Max Count: {room.maxcount}</p>
                 </b>
               </div>
@@ -118,3 +120,4 @@ function BookingScreen(props) {
 }
 
 export default BookingScreen;
+
