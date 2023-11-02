@@ -10,7 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "antd": "^5.10.3",
     "axios": "^1.6.0",
+    "moment": "^2.29.4",
     "react": "^18.2.0",
     "react-bootstrap": "^2.9.1",
     "react-dom": "^18.2.0",

@@ -3,34 +3,41 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../Loader";
 import Error from "../Error";
+import moment from "moment";
 
 function BookingScreen() {
-  const { roomid } = useParams();
-  const [loading, setLoading] = useState(false); // Initialize loading state with false
-  const [error, setError] = useState(false); // Initialize error state with false
-  const [room, setRoom] = useState(null); // Initialize room state with null
+  const { roomid, fromdate, todate } = useParams(); // Retrieve fromdate and todate from URL parameters
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [room, setRoom] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true); // Set loading state to true
+        setLoading(true);
         const response = await axios.post(
           `http://localhost:5000/api/rooms/getroombyid`,
           { roomid: roomid }
         );
-        const data = response.data; // Extract data from the response
+        const data = response.data;
 
-        setRoom(data); // Update room state with the data
-        setLoading(false); // Set loading state to false
+        setRoom(data);
+        setLoading(false);
       } catch (err) {
-        setError(true); // Set error state to true
-        console.log(err); // Log the error
-        setLoading(false); // Set loading state to false
+        setError(true);
+        console.log(err);
+        setLoading(false);
       }
     };
 
-    fetchData(); // Call the async function to fetch data
-  }, [roomid]); // Adding roomid as a dependency to the useEffect
+    fetchData();
+  }, [roomid, fromdate, todate]); // Include fromdate and todate as dependencies
+
+  const fromDateObj = moment(fromdate, "DD-MM-YYYY");
+  const toDateObj = moment(todate, "DD-MM-YYYY");
+  const totalDays = toDateObj.diff(fromDateObj, "days");
+  const rentPerDay = room ? room.rentperday : 0;
+  const totalAmount = totalDays * rentPerDay;
 
   return (
     <div className="m-5">
@@ -49,8 +56,8 @@ function BookingScreen() {
                 <hr />
                 <b>
                   <p>Name: {room.name}</p>
-                  <p>From Date: {/* Add from date here */}</p>
-                  <p>To Date: {/* Add to date here */}</p>
+                  <p>From Date: {fromDateObj.format("DD-MM-YYYY")}</p>
+                  <p>To Date: {toDateObj.format("DD-MM-YYYY")}</p>
                   <p>Max Count: {room.maxcount}</p>
                 </b>
               </div>
@@ -59,9 +66,9 @@ function BookingScreen() {
                 <b>
                   <h1>Amount</h1>
                   <hr />
-                  <p>Total days: {/* Calculate total days here */}</p>
-                  <p>Rent per day: {room.rentperday}</p>
-                  <p>Total Amount: {/* Calculate total amount here */}</p>
+                  <p>Total days: {totalDays}</p>
+                  <p>Rent per day: {rentPerDay}</p>
+                  <p>Total Amount: {totalAmount}</p>
                 </b>
               </div>
               <div style={{ float: "right" }}>
