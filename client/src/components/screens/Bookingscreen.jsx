@@ -10,7 +10,6 @@ function BookingScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [room, setRoom] = useState(null);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
