@@ -1,31 +1,54 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import axios from "axios";
 
 function LoginScreen() {
-    const [email,setEmail] = useState("")
-    const [password,setPassword] = useState("")
-   
-    function Login(){
-                const user={
-             
-                    email,
-                    password,
-             
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-                }
-                console.log(user);
-            
+  async function Login() {
+    const user = {
+      email,
+      password,
+    };
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/users/login",
+        user
+      );
+      const data = response.data;
+      // Handle the data or provide feedback to the user.
+    } catch (error) {
+      console.log(error);
+      // Handle the error or provide feedback to the user.
     }
+  }
   return (
     <div className="container">
       <div className="row justify-content-center mt-5 ">
         <div className="col-md-5 bs">
           <h2>Login</h2>
-          <input type="email" className="form-control" placeholder="Enter Your Email" value={email} onChange={(e)=>{setEmail(e.target.value)}} />
-          <input type="password" className="form-control" placeholder="Enter Your Password"  value={password} onChange={(e)=>{
-            setPassword(e.target.value)
-          }}/>
-          <button className='btn mt-3' onClick={Login} >Login</button>
-                </div>
+          <input
+            type="email"
+            className="form-control"
+            placeholder="Enter Your Email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          />
+          <input
+            type="password"
+            className="form-control"
+            placeholder="Enter Your Password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          />
+          <button className="btn mt-3" onClick={Login}>
+            Login
+          </button>
+        </div>
       </div>
     </div>
   );
