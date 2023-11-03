@@ -90,8 +90,8 @@ function BookingScreen() {
                   <h1>Amount</h1>
                   <hr />
                   <p>Total days: {totalDays}</p>
-                  <p>Rent per day: {rentPerDay} ₹</p>
-                  <p>Total Amount: {totalAmount} ₹</p>
+                  <p>Rent per day:₹ {rentPerDay}</p>
+                  <p>Total Amount:₹ {totalAmount}</p>
                 </b>
               </div>
               <div style={{ float: "right" }}>

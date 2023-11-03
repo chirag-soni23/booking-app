@@ -11,7 +11,7 @@ function Navbar() {
     <div>
       <nav className="navbar navbar-expand-lg">
         <a className="navbar-brand" href="#">
-          SHEYROOMS
+          RESTROOMS
         </a>
         <button
           className="navbar-toggler"
