@@ -4,18 +4,20 @@ import moment from "moment";
 import Rooms from "../Rooms";
 import Loader from "../Loader";
 import Error from "../Error";
-import { DatePicker } from "antd";
+import { DatePicker, Input } from "antd";
 
 const { RangePicker } = DatePicker;
+const { Search } = Input;
 
 function Homescreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [rooms, setRooms] = useState([]);
-  const [fromdate, setFromdate] = useState(null); // Initialize with null
-  const [todate, setTodate] = useState(null); // Initialize with null
+  const [fromdate, setFromdate] = useState(null);
+  const [todate, setTodate] = useState(null);
   const [duplicaterooms, setDuplicatrooms] = useState([]);
-  const currentDate = moment().format("DD-MM-YYYY"); // Get current date and format it
+  const [searchQuery, setSearchQuery] = useState("");
+  const currentDate = moment().format("DD-MM-YYYY");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,7 +39,7 @@ function Homescreen() {
     fetchData();
   }, []);
 
-  function filterByDate(date, dateStrings) {
+  function filterByDate(dates, dateStrings) {
     if (dateStrings && dateStrings.length === 2) {
       setFromdate(dateStrings[0]);
       setTodate(dateStrings[1]);
@@ -47,19 +49,36 @@ function Homescreen() {
     }
   }
 
+  function handleSearch(value) {
+    setSearchQuery(value);
+  }
+
+  const filteredRooms = rooms.filter((room) => {
+    return (
+      (room.name && room.name.toLowerCase().includes(searchQuery.toLowerCase())) ||
+      (room.description && room.description.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
+  });
+
   return (
     <div className="container">
       <div className="row mt-5">
         <div className="col-md-3">
           <RangePicker format="DD-MM-YYYY" onChange={filterByDate} />
         </div>
+        <div className="col-md-3">
+          <Search
+            placeholder="Search rooms"
+            onSearch={(value) => handleSearch(value)}
+          />
+        </div>
       </div>
 
       <div className="row justify-content-center mt-2">
         {loading ? (
           <Loader />
-        ) : rooms.length > 0 ? (
-          rooms.map((room) => (
+        ) : filteredRooms.length > 0 ? (
+          filteredRooms.map((room) => (
             <div key={room._id} className="col-md-9 mt-4">
               <Rooms
                 rooms={room}
@@ -70,7 +89,7 @@ function Homescreen() {
             </div>
           ))
         ) : (
-          <Error />
+          <p>No matching rooms found.</p>
         )}
       </div>
     </div>

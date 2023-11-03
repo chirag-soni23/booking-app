@@ -4,8 +4,10 @@ import { useParams } from "react-router-dom";
 import Loader from "../Loader";
 import Error from "../Error";
 import moment from "moment";
+import StripeCheckout from 'react-stripe-checkout';
 
-function BookingScreen(match) {
+
+function BookingScreen() {
   const { roomid, fromdate, todate } = useParams();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -20,11 +22,12 @@ function BookingScreen(match) {
           { roomid: roomid }
         );
         const data = response.data;
+
         setRoom(data);
+        setLoading(false);
       } catch (err) {
         setError(true);
-        console.error(err);
-      } finally {
+        console.log(err);
         setLoading(false);
       }
     };
@@ -37,36 +40,25 @@ function BookingScreen(match) {
   const totalDays = toDateObj.diff(fromDateObj, "days");
   const rentPerDay = room ? room.rentperday : 0;
   const totalAmount = totalDays * rentPerDay;
-
-  async function bookRoom() {
+  async function onToken(token){
+    const bookingDetails = {
+      room,
+      userid: JSON.parse(localStorage.getItem("currentUser"))._id,
+      fromdate,
+      todate,
+      totalamount: totalAmount,
+      totaldays: totalDays,
+      token
+    };
     try {
-      const bookingDetails = {
-        room,
-        userid: JSON.parse(localStorage.getItem("currentUser"))._id,
-        fromdate,
-        todate,
-        totalamount: totalAmount,
-        totaldays: totalDays,
-      };
-
       const result = await axios.post(
         'http://localhost:5000/api/bookings/bookroom',
         bookingDetails
       );
-      
-      // Check the response for success and handle it if needed
-      if (result.data.success) {
-        // Payment was successful, you can navigate to a success page or show a message
-        alert("Payment was successful. Redirecting to success page...");
-        // Redirect to a success page or do something else here
-      } else {
-        // Payment was not successful, handle the error
-        alert("Payment failed. Please try again.");
-      }
+      // Handle the response if needed
     } catch (error) {
       console.error(error);
       // Handle the error if needed
-      alert("An error occurred while processing your payment.");
     }
   }
 
@@ -89,8 +81,6 @@ function BookingScreen(match) {
                   <p>Name: {JSON.parse(localStorage.getItem("currentUser")).name}</p>
                   <p>From Date: {fromDateObj.format("DD-MM-YYYY")}</p>
                   <p>To Date: {toDateObj.format("DD-MM-YYYY")}</p>
-                 
-                  
                   <p>Max Count: {room.maxcount}</p>
                 </b>
               </div>
@@ -100,14 +90,25 @@ function BookingScreen(match) {
                   <h1>Amount</h1>
                   <hr />
                   <p>Total days: {totalDays}</p>
-                  <p>Rent per day: {rentPerDay}</p>
-                  <p>Total Amount: {totalAmount}</p>
+                  <p>Rent per day: {rentPerDay} ₹</p>
+                  <p>Total Amount: {totalAmount} ₹</p>
                 </b>
               </div>
               <div style={{ float: "right" }}>
-                <button className="btn" onClick={bookRoom}>
+                {/* <button className="btn" onClick={bookRoom}>
                   Pay Now
-                </button>
+                </button> */}
+
+                <StripeCheckout
+        token={onToken}
+        amount={totalAmount * 100}
+        currency="INR"
+        stripeKey="pk_test_51O8DSuSDHnOivO9dw4d5CZqJqDdc1lnVPkOKQmdYJLOT82aXVdiCpRZ2A91pZn6rgsE6e6lqBcXWbgYIGwuv1ijp00vL2YMevH"
+      > <button className="btn">
+      Pay Now
+    </button>
+        
+      </StripeCheckout>
               </div>
             </div>
           </div>
@@ -120,4 +121,3 @@ function BookingScreen(match) {
 }
 
 export default BookingScreen;
-
