@@ -2,24 +2,37 @@ import './App.css';
 import './index.css';
 import Navbar from './components/Navbar';
 import Homescreen from './components/screens/Homescreen';
-import { BrowserRouter, Route, Link, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Link, Routes, Navigate } from 'react-router-dom'; // Import Navigate
 import Bookingscreen from './components/screens/Bookingscreen';
 import RegisterScreen from './components/screens/RegisterScreen';
 import Loginscreen from './components/screens/Loginscreen';
 
 function App() {
+  // Check if the user is logged in (you can use localStorage or any other method)
+  const user = JSON.parse(localStorage.getItem("currentUser"));
+
   return (
     <>
       <div className="App">
         <Navbar />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Homescreen />} />
-            <Route path="/book/:roomid/:fromdate/:todate"element={<Bookingscreen/>}/>
-            <Route path="/register"element={<RegisterScreen/>}/>
-            <Route path="/login"element={<Loginscreen/>}/>
+            {user ? (
+              <>
+                {/* If the user is logged in, show the HomeScreen */}
+                <Route path="/" element={<Homescreen />} />
+                <Route path="/book/:roomid/:fromdate/:todate" element={<Bookingscreen />} />
+              </>
+            ) : (
+              <>
+                {/* If the user is not logged in, show the LoginScreen */}
+                <Route path="/" element={<Navigate to="/login" />} />
+              </>
+            )}
 
-
+            {/* Always provide routes for Register and Login screens */}
+            <Route path="/register" element={<RegisterScreen />} />
+            <Route path="/login" element={<Loginscreen />} />
           </Routes>
         </BrowserRouter>
       </div>
@@ -28,4 +41,7 @@ function App() {
 }
 
 export default App;
+
+
+
 
