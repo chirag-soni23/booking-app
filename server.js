@@ -1,7 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 5000; // Use the provided port or default to 5000
+const port = process.env.PORT || 3000; // Use the provided port or default to 5000
 const dbconfig = require("./db"); // Import database configuration (if you have it)
 const roomRoute = require("./routes/roomRoutes.js"); // Import room routes
 const userRoute = require("./routes/usersRoutes.js"); // Import user routes
