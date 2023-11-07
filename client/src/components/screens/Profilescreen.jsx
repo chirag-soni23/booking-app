@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Tabs } from 'antd';
 const { TabPane } = Tabs;
+import Loader from "../Loader";
+import Error from "../Error";
 import axios from 'axios';
 
 function Profilescreen() {
@@ -35,16 +37,25 @@ const user = JSON.parse(localStorage.getItem("currentUser"))
 
 
 export function MyBooking(){
+  const [bookings,setbookings] = useState([])
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   useEffect(() => {
     const fetchUserBookings = async () => {
       try {
+        setLoading(true)
         const response = await axios.post("http://localhost:5000/api/bookings/getbookingsbyuserid", {
           userid: user._id
         });
-        const rooms = response.data;
-        console.log(rooms);
+        const data = response.data;
+        // console.log(data);
+        setbookings(data)
+        setLoading(false)
+
       } catch (error) {
         console.log(error);
+        setLoading(false)
+        setError(error)
       }
     };
   
@@ -53,7 +64,29 @@ export function MyBooking(){
   }, []);
   return(
     <div>
-      <h1>My booking</h1>
+      <div className="row">
+        <div className="col-md-6">
+        {loading && (<Loader/>)}
+        {bookings && (bookings.map(booking=>{
+         return <div className='bs' >
+            <h1>{booking.room}</h1>
+            <p><b>Booking</b> : {booking._id}</p>
+            <p><b>Check In</b> : {booking.fromdate}</p>
+            <p><b>Check Out</b> : {booking.todate}</p>
+            <p><b>Amount</b> : {booking.totalamount}</p>
+            <p><b>Status</b> : {booking.status === "booked" ? "CONFIRMED" : "CANCELED"}</p>
+            <div className='text-right'>
+              <button className='btn'>CANCEL BOOKING</button>
+
+            </div>
+          </div>
+          
+
+
+
+        }))}
+        </div>
+      </div>
     </div>
   )
 }
