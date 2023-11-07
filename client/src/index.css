@@ -11,7 +11,7 @@ html , body{
 
 .navbar{
   background-color: black !important;
-  padding: 10px;
+  padding: 10px !important;
 }
 .nav-link{
   color: #fff !important;

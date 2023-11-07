@@ -13,6 +13,9 @@ function BookingScreen() {
   const [room, setRoom] = useState(null);
 
   useEffect(() => {
+    // if(localStorage.getItem("currentUser")){
+    //   window.location.reload="/login"
+    // }
     const fetchData = async () => {
       try {
         setLoading(true);
@@ -73,7 +76,7 @@ function BookingScreen() {
           swal.fire("Your Room", " is Booked ", "success");
         } else {
           swal.fire("success", "Your Room is Booked", "success");
-          window.location.href = "/bookings";
+          window.location.href = "/profile";
         }
       } catch (error) {
         console.error(error);
@@ -105,11 +108,11 @@ function BookingScreen() {
                 <hr />
                 <b>
                   <p>
-                    Name: {JSON.parse(localStorage.getItem("currentUser")).name}
+                    <b>Name</b>: {JSON.parse(localStorage.getItem("currentUser")).name}
                   </p>
-                  <p>From Date: {fromDateObj.format("DD-MM-YYYY")}</p>
-                  <p>To Date: {toDateObj.format("DD-MM-YYYY")}</p>
-                  <p>Max Count: {room.maxcount}</p>
+                  <p><b>From Date</b>: {fromDateObj.format("DD-MM-YYYY")}</p>
+                  <p><b>To Date</b>: {toDateObj.format("DD-MM-YYYY")}</p>
+                  <p><b>Max Count</b>: {room.maxcount}</p>
                 </b>
               </div>
 
@@ -117,9 +120,9 @@ function BookingScreen() {
                 <b>
                   <h1>Amount</h1>
                   <hr />
-                  <p>Total days: {totalDays}</p>
-                  <p>Rent per day:₹ {rentPerDay}</p>
-                  <p>Total Amount:₹ {totalAmount}</p>
+                  <p><b>Total days</b>:{totalDays}</p>
+                  <p><b>Rent Per Days</b>: ₹{rentPerDay}</p>
+                  <p><b>Total Amount</b>: ₹{totalAmount}</p>
                 </b>
               </div>
               <div style={{ float: "right" }}>
