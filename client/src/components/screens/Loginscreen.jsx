@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Loader from "../Loader";
-import Error from "../Error";
 import Success from "../Success";
 
 function LoginScreen() {
@@ -9,12 +8,10 @@ function LoginScreen() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   async function Login() {
-    setLoading(true); // Set loading state to true before making the request.
-    setError(false); // Reset the error state.
-    setSuccess(false); // Reset the success state.
+    setLoading(true);
+    setError(false);
 
     const user = {
       email,
@@ -27,28 +24,26 @@ function LoginScreen() {
         user
       );
       const data = response.data;
-
-      // Assuming your API returns a token or user data
       localStorage.setItem("currentUser", JSON.stringify(data));
-      window.location.href = "/"
-      setSuccess(true);
-      setLoading(false); // Reset loading state.
-      // You can redirect the user to a different page or perform other actions as needed.
+      window.location.href = "/";
+      setLoading(false);
     } catch (error) {
-      console.log(error);
       setError(true);
-      setLoading(false); // Reset loading state.
-      // Handle the error or provide feedback to the user.
+      setLoading(false);
     }
   }
 
   return (
     <div className="container">
-        {loading && (<Loader/>)}
+      {loading && <Loader />}
       <div className="row justify-content-center mt-5">
-      {error && (<Error message ="Invalid Credentials"/>)}
         <div className="col-md-5 bs">
           <h2>Login</h2>
+          {error && (
+            <div className="alert alert-danger">
+              Invalid Credentials. Please check your email and password.
+            </div>
+          )}
           <input
             type="email"
             className="form-control"
@@ -73,3 +68,4 @@ function LoginScreen() {
 }
 
 export default LoginScreen;
+

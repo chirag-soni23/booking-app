@@ -5,9 +5,9 @@ import Error from "../Error";
 import Success from "../Success";
 
 function RegisterScreen() {
-  const [loading, setLoading] = useState(false); // Initialize loading state with false
-  const [error, setError] = useState(false); // Initialize error state with false
-  const [success ,setSuccess] = useState()
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,25 +22,23 @@ function RegisterScreen() {
         cpassword,
       };
       try {
-        setLoading(true)
+        setLoading(true);
         const response = await axios.post(
           "http://localhost:5000/api/users/register",
           user
         );
 
         const data = response.data;
-        setLoading(false)
-        setSuccess(true)
-        setName("")
-        setEmail("")
-        setPassword("")
-        setCPassword("")
-        // Handle the data or provide feedback to the user.
+        setLoading(false);
+        setSuccess(true);
+        setName("");
+        setEmail("");
+        setPassword("");
+        setCPassword("");
       } catch (error) {
         console.log(error);
-        setLoading(false)
-        setError(true)
-        // Handle the error or provide feedback to the user.
+        setLoading(false);
+        setError(true);
       }
     } else {
       alert("Passwords don't match");
@@ -49,13 +47,14 @@ function RegisterScreen() {
 
   return (
     <div className="container">
-      {loading && (<Loader/>)}
-      {error && (<Error/>)}
-     
+      {loading && <Loader />}
       <div className="row justify-content-center mt-5">
-        {success  && (<Success message="Registration Success ✅"/>)}
         <div className="col-md-5 bs">
           <h2>Register</h2>
+          {success && (
+            <Success message="Registration Success ✅" />
+          )}
+          {error && <Error />}
           <input
             type="text"
             className="form-control"
