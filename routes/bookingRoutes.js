@@ -40,6 +40,17 @@ router.post('/bookroom', async (req, res) => {
         res.status(500).json({ error: 'An error occurred while booking the room' });
     }
 });
+router.post("/getbookingsbyuserid",async(req,res)=>{
+    const userid = req.body.userid
+    try {
+        const bookings = await Booking.find({userid:userid})
+        res.send(bookings)
+        
+    } catch (error) {
+        return res.status(400).json({error})
+        
+    }
+})
 
 module.exports = router;
 

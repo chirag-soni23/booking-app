@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Link, Routes, Navigate } from 'react-router-dom';
 import Bookingscreen from './components/screens/Bookingscreen';
 import RegisterScreen from './components/screens/RegisterScreen';
 import Loginscreen from './components/screens/Loginscreen';
+import Profilescreen from './components/screens/Profilescreen';
 
 function App() {
   // Check if the user is logged in (you can use localStorage or any other method)
@@ -33,6 +34,7 @@ function App() {
             {/* Always provide routes for Register and Login screens */}
             <Route path="/register" element={<RegisterScreen />} />
             <Route path="/login" element={<Loginscreen />} />
+            <Route path='/profile'element={<Profilescreen/>}/>
           </Routes>
         </BrowserRouter>
       </div>
