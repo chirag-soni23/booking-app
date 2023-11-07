@@ -2,9 +2,9 @@ import React from "react";
 
 function Navbar() {
   const user = JSON.parse(localStorage.getItem("currentUser"));
-  function logout(){
-    localStorage.removeItem("currentUser")
-    window.location.href = "/login"
+  function logout() {
+    localStorage.removeItem("currentUser");
+    window.location.href = "/login";
   }
 
   return (
@@ -23,9 +23,8 @@ function Navbar() {
           aria-label="Toggle navigation"
         >
           <span className="navbar-toggler-icon">
-  <i className="fa-solid fa-bars" style={{ color: "#ffffff" }}></i>
-</span>
-        
+            <i className="fa-solid fa-bars" style={{ color: "#ffffff" }}></i>
+          </span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto mr-5">
@@ -41,17 +40,17 @@ function Navbar() {
                     aria-expanded="false"
                   >
                     <i className="fa-solid fa-user"></i>
-                  {user.name}
+                    {user.name}
                   </button>
                   <div
                     class="dropdown-menu"
                     aria-labelledby="dropdownMenuButton"
                   >
-                    <a class="dropdown-item" href="">
+                    <a class="dropdown-item" href="/bookings">
                       Bookings
                     </a>
                     <a class="dropdown-item" href="#" onClick={logout}>
-                    Logout
+                      Logout
                     </a>
                   </div>
                 </div>
@@ -64,7 +63,7 @@ function Navbar() {
                   </a>
                 </li>
                 <li className="nav-item">
-                  <a className="nav-link" href="/login" >
+                  <a className="nav-link" href="/login">
                     Login
                   </a>
                 </li>

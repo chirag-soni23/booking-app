@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Loader from "../Loader";
 import Error from "../Error";
 import moment from "moment";
-import StripeCheckout from "react-stripe-checkout";
+import swal from "sweetalert2";
 
 function BookingScreen() {
   const { roomid, fromdate, todate } = useParams();
@@ -40,7 +40,7 @@ function BookingScreen() {
   const rentPerDay = room ? room.rentperday : 0;
   const totalAmount = totalDays * rentPerDay;
 
-  async function onToken(token) {
+  async function bookRoom() {
     const bookingDetails = {
       room,
       userid: JSON.parse(localStorage.getItem("currentUser"))._id,
@@ -48,20 +48,46 @@ function BookingScreen() {
       todate,
       totalamount: totalAmount,
       totaldays: totalDays,
-      token,
     };
-    try {
-      const result = await axios.post(
-        'http://localhost:5000/api/bookings/bookroom',
-        bookingDetails
-      );
-      // Handle the response if needed
-    } catch (error) {
-      console.error(error);
-      // Handle the error if needed
+
+    const isConfirmed = await swal
+      .fire({
+        title: "Confirm Booking",
+        text: "Are you sure you want to book this room?",
+        icon: "question",
+        showCancelButton: true,
+        confirmButtonText: "OK",
+        cancelButtonText: "Cancel",
+      })
+      .then((result) => result.isConfirmed);
+
+    if (isConfirmed) {
+      try {
+        setLoading(true);
+        const result = await axios.post(
+          "http://localhost:5000/api/bookings/bookroom",
+          bookingDetails
+        );
+        setLoading(false);
+        if (result.data === " Your Room is booked") {
+          swal.fire("Your Room", " is Booked ", "success");
+        } else {
+          swal.fire("success", "Your Room is Booked", "success");
+          window.location.href = "/bookings";
+        }
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+        swal.fire(
+          "Error",
+          "Something went wrong. Please try again later.",
+          "error"
+        );
+      }
+    } else {
+      swal.fire("Your", "Booking is canceled", "info");
     }
   }
-
   return (
     <div className="m-5">
       {loading ? (
@@ -78,7 +104,9 @@ function BookingScreen() {
                 <h1>Booking details</h1>
                 <hr />
                 <b>
-                  <p>Name: {JSON.parse(localStorage.getItem("currentUser")).name}</p>
+                  <p>
+                    Name: {JSON.parse(localStorage.getItem("currentUser")).name}
+                  </p>
                   <p>From Date: {fromDateObj.format("DD-MM-YYYY")}</p>
                   <p>To Date: {toDateObj.format("DD-MM-YYYY")}</p>
                   <p>Max Count: {room.maxcount}</p>
@@ -95,14 +123,9 @@ function BookingScreen() {
                 </b>
               </div>
               <div style={{ float: "right" }}>
-                <StripeCheckout
-                  token={onToken}
-                  amount={totalAmount * 100} // Convert amount to cents
-                  currency="INR"
-                  stripeKey="pk_test_51O8DSuSDHnOivO9dw4d5CZqJqDdc1lnVPkOKQmdYJLOT82aXVdiCpRZ2A91pZn6rgsE6e6lqBcXWbgYIGwuv1ijp00vL2YMevH"
-                >
-                  <button className="btn">Pay Now</button>
-                </StripeCheckout>
+                <button className="btn" onClick={bookRoom}>
+                  Book Now
+                </button>
               </div>
             </div>
           </div>
