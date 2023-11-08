@@ -12,6 +12,7 @@ function Adminscreen() {
       window.location.href = "/";
     }
   }, []);
+
   return (
     <div className="mt-3 ml-3 mr-3 bs">
       <h3 className="text-center" style={{ fontSize: "25px" }}>
@@ -42,24 +43,24 @@ export function Bookings() {
   const [loading, setLoading] = useState(true);
   const [error, seterror] = useState();
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/bookings/getallbookings"
-        );
-        const data = response.data;
-        setbookings(data);
-        setLoading(false);
-        // console.log(data);
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      }
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/bookings/getallbookings"
+      );
+      const data = response.data;
+      setbookings(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <div className="row">
       <div className="col-md-12">
@@ -80,7 +81,7 @@ export function Bookings() {
             {bookings.length &&
               bookings.map((booking) => {
                 return (
-                  <tr>
+                  <tr key={booking._id}>
                     <td>{booking._id}</td>
                     <td>{booking.userid}</td>
                     <td>{booking.room}</td>
@@ -96,29 +97,30 @@ export function Bookings() {
     </div>
   );
 }
+
 export function Rooms() {
   const [rooms, setrooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, seterror] = useState();
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/rooms/getallrooms"
-        );
-        const data = response.data;
-        setrooms(data);
-        setLoading(false);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      }
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/rooms/getallrooms"
+      );
+      const data = response.data;
+      setrooms(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <div className="row">
       <div className="col-md-12">
@@ -139,7 +141,7 @@ export function Rooms() {
             {rooms.length &&
               rooms.map((room) => {
                 return (
-                  <tr>
+                  <tr key={room._id}>
                     <td>{room._id}</td>
                     <td>{room.name}</td>
                     <td>{room.type}</td>
@@ -155,28 +157,30 @@ export function Rooms() {
     </div>
   );
 }
+
 export function Users() {
   const [users, setusers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, seterror] = useState();
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const response = await axios.get(
-          "http://localhost:5000/api/users/getallusers"
-        );
-        const data = response.data;
-        setusers(data);
-        setLoading(false);
-        console.log(data);
-      } catch (error) {
-        console.log(error);
-        setLoading(false);
-      }
-    }
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:5000/api/users/getallusers"
+      );
+      const data = response.data;
+      setusers(data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
+
   return (
     <div className="row">
       <div className="col-md-12">
@@ -195,7 +199,7 @@ export function Users() {
             {users &&
               users.map((user) => {
                 return (
-                  <tr>
+                  <tr key={user._id}>
                     <td>{user._id}</td>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
