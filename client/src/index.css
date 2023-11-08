@@ -32,8 +32,8 @@ h1{
 
 }
 .btn{
-  background-color: #000 !important;
-  color: #fff !important;
+  background-color: #000 ;
+  color: #fff ;
   box-shadow: none;
 }
 .bs{
@@ -54,9 +54,9 @@ border-radius: 3px;
 height: 35px !important;
 }
 h2{
-  font-size: 30px !important;
+  font-size: 30px ;
   padding: 10px;
-  font-weight: bold !important;
+  font-weight: bold;
   text-align: center;
 }
 .dropdown-toggle{
@@ -68,4 +68,13 @@ h2{
 p{
   font-size: 16px !important;
 
+}
+.landing{
+  background-color: #000 !important;
+  height: 91.7vh;
+  width: 101%;
+  padding-top: 100px;
+}
+.landing .col-md-9{
+  border-right: 5px solid #fff;
 }

@@ -8,6 +8,7 @@ import RegisterScreen from './components/screens/RegisterScreen';
 import Loginscreen from './components/screens/Loginscreen';
 import Profilescreen from './components/screens/Profilescreen';
 import Adminscreen from './components/screens/Adminscreen';
+import Landingscreen from './components/screens/Landingscreen';
 
 function App() {
   // Check if the user is logged in (you can use localStorage or any other method)
@@ -37,6 +38,7 @@ function App() {
             <Route path="/login" element={<Loginscreen />} />
             <Route path='/profile'element={<Profilescreen/>}/>
             <Route path ="/admin" element ={<Adminscreen/>}/>
+            <Route path="/home"element={<Landingscreen/>}/>
           </Routes>
         </BrowserRouter>
       </div>
