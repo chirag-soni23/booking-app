@@ -26,7 +26,7 @@ function Adminscreen() {
           <Rooms />
         </TabPane>
         <TabPane tab="Add Room" key="3">
-        <Addroom/>
+          <Addroom />
         </TabPane>
         <TabPane tab="Users" key="4">
           <Users />
@@ -218,79 +218,139 @@ export function Users() {
 
 // Add Rooms Components
 
-export function Addroom(){
-  const [name,setname] = useState("")
-  const [rentperday,setrentperday] = useState()
-  const [maxcount,setmaxcount] = useState()
-  const[description,setdescription] = useState()
-  const[phonenumber,setphonenumber] = useState()
-  const [type,settype] = useState()
-  const [imageurl1,setimageurl1] = useState()
-  const [imageurl2,setimageurl2] = useState()
-  const [imageurl3,setimageurl3] = useState()
-  function Addroom(){
-    const newroom ={
+export function Addroom() {
+  const [name, setname] = useState("");
+  const [rentperday, setrentperday] = useState();
+  const [maxcount, setmaxcount] = useState();
+  const [description, setdescription] = useState();
+  const [phonenumber, setphonenumber] = useState();
+  const [type, settype] = useState();
+  const [imageurl1, setimageurl1] = useState();
+  const [imageurl2, setimageurl2] = useState();
+  const [imageurl3, setimageurl3] = useState();
+  function Addroom() {
+    const newroom = {
       name,
       rentperday,
       maxcount,
       description,
       phonenumber,
       type,
-      imageurls:[imageurl1,imageurl2,imageurl3]
-    }
-    setname("")
-    setrentperday("")
-    setmaxcount("")
-    setdescription("")
-    setphonenumber("")
-    settype("")
-    setimageurl1("")
-    setimageurl2("")
-    setimageurl3("")
+      imageurls: [imageurl1, imageurl2, imageurl3],
+    };
+    setname("");
+    setrentperday("");
+    setmaxcount("");
+    setdescription("");
+    setphonenumber("");
+    settype("");
+    setimageurl1("");
+    setimageurl2("");
+    setimageurl3("");
     console.log(newroom);
   }
 
-  return(
+  return (
     <div className="row">
-      <div className="col-md-5" style={{display:"flex",flexDirection:"column",gap:"20px"}}>
-        <input type="text" value={name} onChange={(e)=>{
-          setname(e.target.value)
-        }}  className="form-control" placeholder="Room name"/>
-        <input value={rentperday} onChange={(e)=>{
-          setrentperday(e.target.value)
-        }} type="text" className="form-control" placeholder="Rent Per Day"/>
-        <input value={maxcount} onChange={(e)=>{
-          setmaxcount(e.target.value)
-        }} type="text" className="form-control" placeholder="Max Count"/>
+      <div
+        className="col-md-5"
+        style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+      >
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => {
+            setname(e.target.value);
+          }}
+          className="form-control"
+          placeholder="Room name"
+        />
+        <input
+          value={rentperday}
+          onChange={(e) => {
+            setrentperday(e.target.value);
+          }}
+          type="text"
+          className="form-control"
+          placeholder="Rent Per Day"
+        />
+        <input
+          value={maxcount}
+          onChange={(e) => {
+            setmaxcount(e.target.value);
+          }}
+          type="text"
+          className="form-control"
+          placeholder="Max Count"
+        />
         {/* <input type="text" className="form-control" placeholder="Description"/> */}
-        <textarea value={description} onChange={(e)=>{
-          setdescription(e.target.value)
-        }} style={{resize:"none"}} className = "form-control" cols="70" placeholder="Description" rows="10"></textarea>
-        <input value={phonenumber} onChange={(e)=>{
-          setphonenumber(e.target.value)
-        }}  type="text" className="form-control" placeholder="Phone number"/>
-        
+        <textarea
+          value={description}
+          onChange={(e) => {
+            setdescription(e.target.value);
+          }}
+          style={{ resize: "none" }}
+          className="form-control"
+          cols="70"
+          placeholder="Description"
+          rows="10"
+        ></textarea>
+        <input
+          value={phonenumber}
+          onChange={(e) => {
+            setphonenumber(e.target.value);
+          }}
+          type="text"
+          className="form-control"
+          placeholder="Phone number"
+        />
       </div>
-      <div className="col-md-5"style={{display:"flex",flexDirection:"column",gap:"20px"}}>
-      <input value={type} onChange={(e)=>{
-        settype(e.target.value)
-      }} type="text" className="form-control" placeholder="Type"/>
-        <input value={imageurl1} onChange={(e)=>{
-          setimageurl1(e.target.value)
-        }} type="text" className="form-control" placeholder="Image URL 1"/>
-        <input value={imageurl2} onChange={(e)=>{
-          setimageurl2(e.target.value)
-        }} type="text" className="form-control" placeholder="Image URL 2"/>
-        <input value={imageurl3} onChange={(e)=>{
-          setimageurl3(e.target.value)
-        }} type="text" className="form-control" placeholder="Image URL 3"/>
+      <div
+        className="col-md-5"
+        style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+      >
+        <input
+          value={type}
+          onChange={(e) => {
+            settype(e.target.value);
+          }}
+          type="text"
+          className="form-control"
+          placeholder="Type"
+        />
+        <input
+          value={imageurl1}
+          onChange={(e) => {
+            setimageurl1(e.target.value);
+          }}
+          type="text"
+          className="form-control"
+          placeholder="Image URL 1"
+        />
+        <input
+          value={imageurl2}
+          onChange={(e) => {
+            setimageurl2(e.target.value);
+          }}
+          type="text"
+          className="form-control"
+          placeholder="Image URL 2"
+        />
+        <input
+          value={imageurl3}
+          onChange={(e) => {
+            setimageurl3(e.target.value);
+          }}
+          type="text"
+          className="form-control"
+          placeholder="Image URL 3"
+        />
         <div className="text-right">
-          <button className="btn mt-2" onClick={Addroom}>Add Room</button>
+          <button className="btn mt-2" onClick={Addroom}>
+            Add Room
+          </button>
         </div>
-
       </div>
-
     </div>
-  )
+  );
 }
-
