@@ -7,6 +7,11 @@ import Error from "../Error";
 import moment from "moment";
 
 function Adminscreen() {
+  useEffect(() => {
+    if (!JSON.parse(localStorage.getItem("currentUser")).isAdmin) {
+      window.location.href = "/";
+    }
+  }, []);
   return (
     <div className="mt-3 ml-3 mr-3 bs">
       <h3 className="text-center" style={{ fontSize: "25px" }}>
@@ -23,7 +28,7 @@ function Adminscreen() {
           <h1>Add room</h1>
         </TabPane>
         <TabPane tab="Users" key="4">
-          <Users/>
+          <Users />
         </TabPane>
       </Tabs>
     </div>
@@ -150,7 +155,7 @@ export function Rooms() {
     </div>
   );
 }
-export function Users(){
+export function Users() {
   const [users, setusers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, seterror] = useState();
@@ -172,10 +177,11 @@ export function Users(){
 
     fetchData();
   }, []);
-  return(
+  return (
     <div className="row">
       <div className="col-md-12">
         <h1>Users</h1>
+        {loading && <Loader />}
         <table className="table table-dark table-bordered">
           <thead>
             <tr>
@@ -185,11 +191,21 @@ export function Users(){
               <th>Is Admin</th>
             </tr>
           </thead>
+          <tbody>
+            {users &&
+              users.map((user) => {
+                return (
+                  <tr>
+                    <td>{user._id}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.isAdmin ? "YES" : "NO"}</td>
+                  </tr>
+                );
+              })}
+          </tbody>
         </table>
-        </div> 
-
+      </div>
     </div>
-  )
-
-
+  );
 }
