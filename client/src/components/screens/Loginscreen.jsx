@@ -25,7 +25,7 @@ function LoginScreen() {
       );
       const data = response.data;
       localStorage.setItem("currentUser", JSON.stringify(data));
-      window.location.href = "/";
+      window.location.href = "/home";
       setLoading(false);
     } catch (error) {
       setError(true);
