@@ -283,7 +283,7 @@ export function Addroom() {
           className="form-control"
           placeholder="Max Count"
         />
-        {/* <input type="text" className="form-control" placeholder="Description"/> */}
+
         <textarea
           value={description}
           onChange={(e) => {
