@@ -5,6 +5,7 @@ import axios from "axios";
 import Loader from "../Loader";
 import Error from "../Error";
 import moment from "moment";
+import swal from "sweetalert2";
 
 function Adminscreen() {
   useEffect(() => {
@@ -219,6 +220,8 @@ export function Users() {
 // Add Rooms Components
 
 export function Addroom() {
+  const [loading, setLoading] = useState(false);
+  const [error, seterror] = useState();
   const [name, setname] = useState("");
   const [rentperday, setrentperday] = useState();
   const [maxcount, setmaxcount] = useState();
@@ -228,7 +231,7 @@ export function Addroom() {
   const [imageurl1, setimageurl1] = useState();
   const [imageurl2, setimageurl2] = useState();
   const [imageurl3, setimageurl3] = useState();
-  function Addroom() {
+  async function Addroom() {
     const newroom = {
       name,
       rentperday,
@@ -238,6 +241,21 @@ export function Addroom() {
       type,
       imageurls: [imageurl1, imageurl2, imageurl3],
     };
+    try {
+      setLoading(true)
+      const result = await axios.post("http://localhost:5000/api/rooms/addroom", newroom);
+      setLoading(false)
+      swal.fire("Congrats","Your New Room Added Successfully","success")
+      // console.log(result.data);
+    } catch (error) {
+      console.log(error);
+      setLoading(false)
+      swal.fire("OOps","Something Went wrong","error").then(result =>{
+        window.location.href ="/"
+      })
+    }
+    
+
     setname("");
     setrentperday("");
     setmaxcount("");
@@ -247,7 +265,7 @@ export function Addroom() {
     setimageurl1("");
     setimageurl2("");
     setimageurl3("");
-    console.log(newroom);
+    // console.log(newroom);
   }
 
   return (
@@ -255,7 +273,8 @@ export function Addroom() {
       <div
         className="col-md-5"
         style={{ display: "flex", flexDirection: "column", gap: "20px" }}
-      >
+        >
+        {loading && <Loader/>}
         <input
           type="text"
           value={name}
