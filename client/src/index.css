@@ -33,8 +33,12 @@ h1{
 }
 .btn{
   background-color: #000 ;
-  color: #fff ;
+  color: #fff;
   box-shadow: none;
+}
+.btn:hover{
+  background-color: #555555;
+  color: #fff;
 }
 .bs{
   box-shadow: rgba(0,0,0,0.35)0px 5px 15px;
